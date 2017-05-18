@@ -1,0 +1,25 @@
+{
+  "name": "bip39-checker",
+  "description": "The BIP-0039 wordlist spell check module.",
+  "version": "1.0.1",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha index.test.js",
+    "coverage": "istanbul cover _mocha -- -R spec index.test.js",
+    "coveralls": "npm run coverage && cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jcalfee/bip39-checker.git"
+  },
+  "dependencies": {
+    "bip39": "^2.3.0"
+  },
+  "devDependencies": {
+    "coveralls": "^2.13.1",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.4.1",
+    "standard": "^10.0.2"
+  }
+}
