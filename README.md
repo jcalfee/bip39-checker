@@ -1,6 +1,8 @@
 [![Build Status](https://travis-ci.org/jcalfee/bip39-checker.svg?branch=master)](https://travis-ci.org/jcalfee/bip39-checker)
 [![Coverage Status](https://coveralls.io/repos/github/jcalfee/bip39-checker/badge.svg?branch=master)](https://coveralls.io/github/jcalfee/bip39-checker?branch=master)
 
+[NPM Package](https://www.npmjs.com/package/bip39-checker)
+
 # BIP-0039 Checker
 
 Normalize and spell check BIP-0039 brain seed phrases.
