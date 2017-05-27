@@ -1,7 +1,9 @@
 /* eslint-env mocha */
+const bip39 = require('bip39')
 const assert = require('assert')
 const LevensteinDistance = require('./src/levenstein_distance')
-const {suggest, wordlist, languages, checkWords, validWordlist, normalize} = require('.')
+const {normalize, suggest, wordlist, languages, checkWords,
+  validSeed, assertValidSeed, validWordlist} = require('.')
 
 describe('Seed', () => {
   it('Normalize', () => {
@@ -38,6 +40,31 @@ describe('Seed', () => {
     for (let lang of languages) {
       assertNormalized(lang)
     }
+  })
+
+  it('Localization', () => {
+    const check = language => {
+      const words = validWordlist(language)
+      const seed = bip39.generateMnemonic(undefined, undefined, words)
+      assert(validSeed(seed, language))
+    }
+    throws(() => check('pig_latin'), /Missing wordlist/)
+    check('chinese_simplified')
+    check('chinese_traditional')
+    check('english')
+    check('french')
+    check('italian')
+    check('japanese')
+    check('spanish')
+  })
+
+  it('Validate', () => {
+    assert(/this seed is only 2 words/.test(validSeed('lazy dog').error))
+    const seed = bip39.generateMnemonic()
+    assert.equal(validSeed(seed + ' nonword').error, 'Invalid mnemonic seed')
+    assert(/Invalid mnemonic seed checksum/.test(validSeed(seed + ' able').error))
+    assert.equal(validSeed(null).error, 'seed string required')
+    assert(validSeed(seed))
   })
 })
 

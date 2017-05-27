@@ -1,6 +1,8 @@
 const LevensteinDistance = require('./src/levenstein_distance')
+const bip39 = require('bip39')
 
 module.exports = {
+  normalize,
   suggest,
   languages: [
     'chinese_simplified',
@@ -12,10 +14,11 @@ module.exports = {
     'spanish'
   ],
   wordlist: language => language ? wordlists[language] : wordlists,
-  normalize,
+  validSeed,
+  assertValidSeed,
   checkWords,
   validWordlist,
-  bip39: require('bip39')
+  bip39
 }
 
 const wordlists = {
@@ -47,6 +50,9 @@ function normalize (seed) {
   seed = seed.trim()
   return seed
 }
+
+const vowelRe = /[aeiou]/g
+const novowels = word => word.replace(vowelRe, '')
 
 /**
   Find the best matching word or words in the list.
@@ -107,6 +113,54 @@ function suggest (word = '', {maxSuggestions = 15, language = 'english'} = {}) {
 }
 
 /**
+    @typedef {object} Validity
+    @property {boolean} Validity.valid
+    @property {string} Validity.error
+*/
+/**
+    User interfaces should check the seed after data entry.  When a checksum is invalid, warn the user and ask if they would like to use it anyway.  This way you can still use phrases created in new future languages.
+
+    @arg {string} mnemonicSeed
+    @arg {string} [language = 'english']
+
+    @example assert(seeder.validSeed(mnemonicSeed))
+    @return {Validity}
+*/
+function validSeed (mnemonicSeed, language = 'english') {
+  try {
+    mnemonicSeed = normalize(mnemonicSeed)
+    assertValidSeed(mnemonicSeed, language)
+    return {
+      valid: true,
+      error: null
+    }
+  } catch (err) {
+    return {
+      valid: false,
+      error: err.message
+    }
+  }
+}
+
+/**
+    Like validSeed, except an Error will be thrown if the seed is invalid.
+
+    @throws {Error} 'Invalid mnemonic seed(...)'
+*/
+function assertValidSeed (mnemonicSeed, language = 'english') {
+  if (!checkWords(mnemonicSeed, language)) {
+    throw new Error('Invalid mnemonic seed')
+  }
+  const wordlist = validWordlist(language)
+  if (!bip39.validateMnemonic(mnemonicSeed, wordlist)) {
+    const words = mnemonicSeed.split(' ').length
+    // user forgot to quote command line arg
+    const shortStr = words < 11 ? `.  Mnemonic seeds are usually 12 words or more but this seed is only ${words} words.` : ''
+    throw new Error(`Invalid mnemonic seed checksum${shortStr}`)
+  }
+}
+
+/**
   @arg {string} seed - single word or combination of words from the wordlist
   @arg {string} [language = 'english'] - Language dictionary to test seed against
 
@@ -126,8 +180,6 @@ function checkWords (seed = '', language = 'english') {
   return true
 }
 
-// private follows
-
 /**
   @throws {Error} 'Missing wordlist for ${language}'
 */
@@ -138,6 +190,3 @@ function validWordlist (language) {
   }
   return wordlist
 }
-
-const vowelRe = /[aeiou]/g
-const novowels = word => word.replace(vowelRe, '')

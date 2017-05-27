@@ -11,16 +11,15 @@ Interfaces may gather word suggestions from this package and use them for auto-c
 
 ```javascript
 const assert = require('assert')
-const {normalize, checkWords, suggest} = require('bip39-checker')
+const {normalize, validSeed, suggest} = require('bip39-checker')
 
 // Normalizes
 assert.equal('double spaces', normalize('double  spaces'), 'removes extra spaces')
 assert.equal('lowercase', normalize('Lowercase'), 'lowercase')
 assert.equal('trim', normalize('  trim  '), 'trim')
 
-// Checks each word in the seed
-assert(checkWords('lazy dog', 'english'))
-assert(!checkWords('lazy ogday', 'english'))
+const seed = 'ocean earn race rack swing odor yard manage illegal draw window desk'
+assert(validSeed(seed, 'english').valid)
 
 // Auto-correct suggestions
 assert(suggest('quality') === true)
