@@ -1,4 +1,4 @@
-const LevensteinDistance = require('./src/levenstein_distance')
+const LevensteinDistance = require('./levenstein_distance')
 const bip39 = require('bip39')
 
 module.exports = {
@@ -22,8 +22,8 @@ module.exports = {
 }
 
 const wordlists = {
-  chinese_simplified: require('./src/wordlist_chinese_simplified'),
-  chinese_traditional: require('./src/wordlist_chinese_traditional'),
+  chinese_simplified: require('./wordlist_chinese_simplified'),
+  chinese_traditional: require('./wordlist_chinese_traditional'),
   english: require('bip39/wordlists/english.json'),
   french: require('bip39/wordlists/french.json'),
   italian: require('bip39/wordlists/italian.json'),

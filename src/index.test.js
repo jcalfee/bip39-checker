@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 const bip39 = require('bip39')
 const assert = require('assert')
-const LevensteinDistance = require('./src/levenstein_distance')
+const LevensteinDistance = require('./levenstein_distance')
 const {normalize, suggest, wordlist, languages, checkWords,
   validSeed, assertValidSeed, validWordlist} = require('.')
 
