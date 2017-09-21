@@ -42,21 +42,13 @@ describe('Seed', () => {
     }
   })
 
-  it('Localization', () => {
-    const check = language => {
+  for (let language of languages) {
+    it(`Word List: ${language}`, () => {
       const words = validWordlist(language)
       const seed = bip39.generateMnemonic(undefined, undefined, words)
       assert(validSeed(seed, language))
-    }
-    throws(() => check('pig_latin'), /Missing wordlist/)
-    check('chinese_simplified')
-    check('chinese_traditional')
-    check('english')
-    check('french')
-    check('italian')
-    check('japanese')
-    check('spanish')
-  })
+    })
+  }
 
   it('Validate', () => {
     assert(/this seed is only 2 words/.test(validSeed('lazy dog').error))

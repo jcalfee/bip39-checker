@@ -22,8 +22,8 @@ module.exports = {
 }
 
 const wordlists = {
-  chinese_simplified: require('./wordlist_chinese_simplified'),
-  chinese_traditional: require('./wordlist_chinese_traditional'),
+  chinese_simplified: require('bip39/wordlists/chinese_simplified'),
+  chinese_traditional: require('bip39/wordlists/chinese_traditional'),
   english: require('bip39/wordlists/english.json'),
   french: require('bip39/wordlists/french.json'),
   italian: require('bip39/wordlists/italian.json'),
