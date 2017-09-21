@@ -14,6 +14,8 @@ Interfaces may gather word suggestions from this package and use them for auto-c
 const assert = require('assert')
 const {normalize, checkWords, suggest} = require('bip39-checker')
 
+// 'english' is the default and may be omitted..
+
 // Normalizes
 assert.equal('double spaces', normalize('double  spaces'), 'removes extra spaces')
 assert.equal('lowercase', normalize('Lowercase'), 'lowercase')
