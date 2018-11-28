@@ -7,10 +7,11 @@ module.exports = {
   languages: [
     'chinese_simplified',
     'chinese_traditional',
-    'japanese',
     'english',
-    'italian',
     'french',
+    'italian',
+    'japanese',
+    'korean',
     'spanish'
   ],
   wordlist: language => language ? wordlists[language] : wordlists,
@@ -28,6 +29,7 @@ const wordlists = {
   french: require('bip39/wordlists/french.json'),
   italian: require('bip39/wordlists/italian.json'),
   japanese: require('bip39/wordlists/japanese.json'),
+  korean: require('bip39/wordlists/korean.json'),
   spanish: require('bip39/wordlists/spanish.json')
 }
 
