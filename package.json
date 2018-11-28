@@ -10,10 +10,11 @@
   "license": "MIT",
   "scripts": {
     "test": "mocha src/index.test.js",
+    "test_lib": "mocha lib/index.test.js",
     "coverage": "istanbul cover _mocha -- -R spec src/index.test.js",
     "coveralls": "npm run coverage && cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
     "build": "node_modules/babel-cli/bin/babel.js src --out-dir lib",
-    "prepublish": "npm run build"
+    "prepublishOnly": "npm run build && npm run test_lib"
   },
   "repository": {
     "type": "git",
@@ -28,7 +29,7 @@
   "devDependencies": {
     "coveralls": "^3.0.0",
     "istanbul": "^0.4.5",
-    "mocha": "^3.4.1",
+    "mocha": "^5.2.0",
     "standard": "^10.0.2"
   },
   "babel": {
